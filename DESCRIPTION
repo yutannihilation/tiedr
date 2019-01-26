@@ -14,6 +14,9 @@ LazyData: true
 RoxygenNote: 6.1.1
 Imports:
     tidyselect,
-    zeallot
+    zeallot,
+    dplyr
 Suggests: 
     testthat
+Remotes:
+    tidyverse/dplyr
