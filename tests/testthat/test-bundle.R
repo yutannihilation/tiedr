@@ -15,7 +15,7 @@ test_that("bundle() for simple cases works", {
 
 test_that("relocate_cols() works", {
   expect_equal(relocate_cols(c("x", "a1", "y", "a2"), a = c("a1", "a2")), c("x", "a", "y"))
-  expect_equal(relocate_cols(c("x", "a1", "y", "a2"), !!! list(a = c("a1", "a2"))), c("x", "a", "y"))
+  expect_equal(relocate_cols(c("x", "a1", "y", "a2"), !!!list(a = c("a1", "a2"))), c("x", "a", "y"))
 
   expect_equal(relocate_cols(c("x", "a1", "b1", "y", "b2", "a2"), a = c("a1", "a2"), b = c("b1", "b2")), c("x", "a", "b", "y"))
 })
