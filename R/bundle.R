@@ -37,6 +37,19 @@ bundle_impl <- function(data, ...) {
   out[relocate_cols(all_vars, !!!bundle_vars)]
 }
 
+#' @rdname bundle
+#' @export
+unbundle <- function(data, ...) {
+  c(unbundle, rest) %<-% vars_split(names(data), ...)
+
+  # TOOD: relocate_cols()
+  dplyr::bind_cols(
+    dplyr::select(data, !!!rlang::syms(rest)),
+    !!!dplyr::select(data, !!!rlang::syms(unbundle))
+  )
+}
+
+# TODO: more generalize aliasing
 relocate_cols <- function(orig_vars, ...) {
   bundled <- rlang::list2(...)
   if (any(!rlang::have_name(bundled))) {
