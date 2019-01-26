@@ -24,3 +24,4 @@ Suggests:
     roxygen2
 Remotes:
     tidyverse/dplyr
+Roxygen: list(markdown = TRUE)
