@@ -1,3 +1,4 @@
+#' @importFrom zeallot %<-%
 #' @keywords internal
 "_PACKAGE"
 
