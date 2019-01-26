@@ -7,7 +7,7 @@ Authors@R:
            family = "Yutani",
            role = c("aut", "cre"),
            email = "yutani.ini@gamil.com")
-Description: What the package does (one paragraph).
+Description: Experimental Package For Multi-Gather And Multi-Spread.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
