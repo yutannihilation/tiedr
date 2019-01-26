@@ -14,10 +14,12 @@ LazyData: true
 RoxygenNote: 6.1.1
 Imports:
     dplyr,
-    rlang,
+    purrr,
+    rlang (>= 0.1.2),
     tidyselect,
     zeallot
 Suggests: 
-    testthat
+    testthat,
+    roxygen2
 Remotes:
     tidyverse/dplyr
