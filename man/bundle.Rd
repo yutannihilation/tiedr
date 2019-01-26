@@ -6,6 +6,13 @@
 \usage{
 bundle(data, ..., .key = "data")
 }
+\arguments{
+\item{data}{A data.frame.}
+
+\item{...}{Selections of columns.}
+
+\item{.key}{The name of the new column. If the dots have names, this will be ignored.}
+}
 \description{
 Bundle And Unbundle columns
 }

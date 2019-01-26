@@ -1,5 +1,8 @@
 #' Bundle And Unbundle columns
 #'
+#' @param data A data.frame.
+#' @param ... Selections of columns.
+#' @param .key The name of the new column. If the dots have names, this will be ignored.
 #' @export
 bundle <- function(data, ..., .key = "data") {
   dots <- rlang::quos(...)
