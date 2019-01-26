@@ -1,3 +1,4 @@
+# FIXME: no more needed?
 vars_split <- function(.vars, ...,
                        .include = character(), .exclude = character(),
                        .strict = TRUE) {

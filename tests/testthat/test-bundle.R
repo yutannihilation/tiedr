@@ -7,10 +7,21 @@ test_that("bundle() for simple cases works", {
   expected$data <- d[, c("a1", "a2")]
   expected <- expected[, c("x", "data", "y")]
 
+  # unnamed cases
   expect_equal(bundle(d, a1, a2), expected)
   expect_equal(bundle(d, c("a1", "a2")), expected)
   expect_equal(bundle(d, -x, -y), expected)
   expect_equal(bundle(d, starts_with("a")), expected)
+
+  # named cases
+  names(expected) <- c("x", "foo", "y")
+  
+  expect_equal(bundle(d, foo = c(a1, a2)), expected)
+  expect_equal(bundle(d, foo = c(-x, -y)), expected)
+  expect_equal(bundle(d, foo = starts_with("a")), expected)
+
+  # unnamed, but specify .key
+  expect_equal(bundle(d, a1, a2, .key = "foo"), expected)
 })
 
 test_that("relocate_cols() works", {
