@@ -2,9 +2,12 @@
 % Please edit documentation in R/bundle.R
 \name{bundle}
 \alias{bundle}
-\title{Bundle And Unbundle columns}
+\alias{unbundle}
+\title{Bundle And Unbundle Columns}
 \usage{
 bundle(data, ..., .key = "data")
+
+unbundle(data, ...)
 }
 \arguments{
 \item{data}{A data.frame.}
@@ -14,5 +17,5 @@ bundle(data, ..., .key = "data")
 \item{.key}{The name of the new column. If the dots have names, this will be ignored.}
 }
 \description{
-Bundle And Unbundle columns
+Bundle And Unbundle Columns
 }

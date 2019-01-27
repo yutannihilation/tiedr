@@ -19,3 +19,32 @@ knitr::opts_chunk$set(
 [![Travis build status](https://travis-ci.com/yutannihilation/tiedr.svg?branch=master)](https://travis-ci.com/yutannihilation/tiedr)
 <!-- badges: end -->
 
+tiedr is not tidyr.
+
+## Usages
+
+### `bundle()` and `unbundle()`
+
+`bundle()` bundles columns into a data.frame column, and `unbundle()` unbundles it.
+
+```{r}
+library(tiedr)
+
+iris <- tibble::as_tibble(iris)
+
+# bundle() takes unnamed arguments
+iris %>% 
+  bundle(-Species)
+
+# bundle() also takes named arguments
+d <- iris %>% 
+  bundle(Sepal = starts_with("Sepal"),
+         Petal = starts_with("Petal"))
+
+# bundled columns can be bundled
+d %>%
+  bundle(-Species)
+
+# unbundle()
+unbundle(d, Sepal, Petal)
+```

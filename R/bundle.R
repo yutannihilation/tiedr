@@ -1,5 +1,6 @@
-#' Bundle And Unbundle columns
+#' Bundle And Unbundle Columns
 #'
+#' @name bundle
 #' @param data A data.frame.
 #' @param ... Selections of columns.
 #' @param .key The name of the new column. If the dots have names, this will be ignored.
