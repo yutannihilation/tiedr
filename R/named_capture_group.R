@@ -8,7 +8,7 @@ str_extract_groups <- function(x, pattern) {
   groups <- get_named_capture_groups(pattern)
   replacements <- paste0("${", groups, "}")
   names(replacements) <- groups
-  
+
   purrr::map_dfc(replacements, ~ stringi::stri_replace_first_regex(x, pattern, .))
 }
 

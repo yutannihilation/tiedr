@@ -14,6 +14,8 @@ test_that("build_regex() works", {
 })
 
 test_that("str_extract_groups() works", {
-  expect_equal(str_extract_groups(c("a_val", "b_val"), "{name}_{value}"),
-               tibble::tibble(name = c("a", "b"), value = c("val", "val")))
+  expect_equal(
+    str_extract_groups(c("a_val", "b_val"), "{name}_{value}"),
+    tibble::tibble(name = c("a", "b"), value = c("val", "val"))
+  )
 })
