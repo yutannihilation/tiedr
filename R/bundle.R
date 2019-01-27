@@ -14,7 +14,7 @@ bundle <- function(data, ..., .key = "data") {
     }
     dots <- rlang::quos(!!.key := c(!!!dots))
   }
-  
+
   all_vars <- names(data)
 
   bundle_vars <- purrr::map(dots, tidyselect::vars_select, .vars = all_vars)
@@ -28,7 +28,7 @@ bundle <- function(data, ..., .key = "data") {
   out <- dplyr::select(data, !!!rlang::syms(group_vars))
 
   out[names(bundle_vars)] <- purrr::map(bundle_vars, dplyr::select, .data = data)
-  
+
   out[relocate_bundled_cols(all_vars, !!!bundle_vars)]
 }
 
@@ -60,7 +60,7 @@ relocate_bundled_cols <- function(orig_vars, ...) {
   bundled_vars <- purrr::flatten_chr(bundlings)
   rest_vars <- setdiff(orig_vars, bundled_vars)
   all_vars <- c(bundling_vars, rest_vars)
-  
+
   # Bundling colums will be located at the most left one of the columns it bundles.
   bundled_vars_first <- purrr::map_chr(bundlings, ~ .[1])
   all_vars_w_alias <- c(bundled_vars_first, rest_vars)

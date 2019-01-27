@@ -15,7 +15,7 @@ test_that("bundle() for simple cases works", {
 
   # named cases
   names(expected) <- c("x", "foo", "y")
-  
+
   expect_equal(bundle(d, foo = c(a1, a2)), expected)
   expect_equal(bundle(d, foo = c(-x, -y)), expected)
   expect_equal(bundle(d, foo = starts_with("a")), expected)
