@@ -37,7 +37,8 @@ bundle <- function(data, ..., .key = "data") {
 #' @export
 unbundle <- function(data, ...) {
   all_vars <- names(data)
-  c(unbundle, rest) %<-% vars_split(all_vars, ...)
+  unbundle <- tidyselect::vars_select(all_vars, ...)
+  rest <- setdiff(all_vars, unbundle)
 
   out <- dplyr::select(data, !!!rlang::syms(rest))
   target_cols <- dplyr::select(data, !!!rlang::syms(unbundle))

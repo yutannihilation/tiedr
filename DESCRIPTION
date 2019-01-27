@@ -18,8 +18,7 @@ Imports:
     purrr,
     rlang (>= 0.1.2),
     stringi,
-    tidyselect,
-    zeallot
+    tidyselect
 Suggests: 
     testthat,
     roxygen2
