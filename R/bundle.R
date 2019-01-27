@@ -7,19 +7,14 @@
 bundle <- function(data, ..., .key = "data") {
   dots <- rlang::quos(...)
 
-  if (all(rlang::have_name(dots))) {
-    return(bundle_impl(data, !!!dots))
+  # if all dots are unnamed, wrap it with a list
+  if (any(!rlang::have_name(dots))) {
+    if (any(rlang::have_name(dots))) {
+      rlang::abort("You cannot specify both named and unnamed dots.")
+    }
+    dots <- rlang::quos(!!.key := c(!!!dots))
   }
-
-  if (all(!rlang::have_name(dots))) {
-    return(bundle_impl(data, !!.key := c(!!!dots)))
-  }
-
-  rlang::abort("You cannot specify both named and unnamed dots.")
-}
-
-bundle_impl <- function(data, ...) {
-  dots <- rlang::quos(...)
+  
   all_vars <- names(data)
 
   bundle_vars <- purrr::map(dots, tidyselect::vars_select, .vars = all_vars)
@@ -34,38 +29,67 @@ bundle_impl <- function(data, ...) {
 
   out[names(bundle_vars)] <- purrr::map(bundle_vars, dplyr::select, .data = data)
   
-  out[relocate_cols(all_vars, !!!bundle_vars)]
+  out[relocate_bundled_cols(all_vars, !!!bundle_vars)]
 }
 
 #' @rdname bundle
 #' @export
 unbundle <- function(data, ...) {
-  c(unbundle, rest) %<-% vars_split(names(data), ...)
+  all_vars <- names(data)
+  c(unbundle, rest) %<-% vars_split(all_vars, ...)
 
-  # TOOD: relocate_cols()
-  dplyr::bind_cols(
-    dplyr::select(data, !!!rlang::syms(rest)),
-    !!!dplyr::select(data, !!!rlang::syms(unbundle))
-  )
+  out <- dplyr::select(data, !!!rlang::syms(rest))
+  target_cols <- dplyr::select(data, !!!rlang::syms(unbundle))
+  for (d in target_cols) {
+    out[names(d)] <- d
+  }
+
+  unbundle_vars <- purrr::map(target_cols, colnames)
+
+  out[relocate_unbundled_cols(all_vars, !!!unbundle_vars)]
 }
 
 # TODO: more generalize aliasing
-relocate_cols <- function(orig_vars, ...) {
-  bundled <- rlang::list2(...)
-  if (any(!rlang::have_name(bundled))) {
+relocate_bundled_cols <- function(orig_vars, ...) {
+  bundlings <- rlang::list2(...)
+  if (any(!rlang::have_name(bundlings))) {
     rlang::abort("All ... must be named")
   }
 
-  rest <- setdiff(orig_vars, purrr::flatten_chr(bundled))
+  bundling_vars <- names(bundlings)
+  bundled_vars <- purrr::flatten_chr(bundlings)
+  rest_vars <- setdiff(orig_vars, bundled_vars)
+  all_vars <- c(bundling_vars, rest_vars)
+  
+  # Bundling colums will be located at the most left one of the columns it bundles.
+  bundled_vars_first <- purrr::map_chr(bundlings, ~ .[1])
+  all_vars_w_alias <- c(bundled_vars_first, rest_vars)
+  pos_in_orig <- match(all_vars_w_alias, orig_vars)
 
-  # insert to the position of the left-most column
-  bundled_orders <- purrr::map_int(bundled, ~ min(match(., orig_vars)))
-  rest_orders <- match(rest, orig_vars)
-  names(rest_orders) <- rest
+  all_orders <- order(pos_in_orig)
 
-  if (any(is.na(bundled_orders)) || any(is.na(bundled_orders))) {
-    rlang::abort("Some variable are not found in orig_vars")
+  all_vars[all_orders]
+}
+
+relocate_unbundled_cols <- function(orig_vars, ...) {
+  bundlings <- rlang::list2(...)
+  if (any(!rlang::have_name(bundlings))) {
+    rlang::abort("All ... must be named")
   }
 
-  names(sort(c(bundled_orders, rest_orders)))
+  bundling_vars <- names(bundlings)
+  bundled_vars <- purrr::flatten_chr(bundlings)
+  rest_vars <- setdiff(orig_vars, bundling_vars)
+  all_vars <- c(bundled_vars, rest_vars)
+  pos_in_bundles <- match(all_vars, bundling_vars)
+
+  # First, matches against the current columns, with unbundled columns aliased to the bundling vars.
+  # Then, sort them as the order inside the bundle.
+  bundling_vars_rep <- rep(bundling_vars, purrr::map_int(bundlings, length))
+  all_vars_w_alias <- c(bundling_vars_rep, rest_vars)
+  pos_in_orig <- match(all_vars_w_alias, orig_vars)
+
+  all_orders <- order(pos_in_orig, pos_in_bundles)
+
+  all_vars[all_orders]
 }
