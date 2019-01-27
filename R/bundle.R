@@ -50,7 +50,6 @@ unbundle <- function(data, ...) {
   out[relocate_unbundled_cols(all_vars, !!!unbundle_vars)]
 }
 
-# TODO: more generalize aliasing
 relocate_bundled_cols <- function(orig_vars, ...) {
   bundlings <- rlang::list2(...)
   if (any(!rlang::have_name(bundlings))) {
