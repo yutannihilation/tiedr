@@ -30,3 +30,10 @@ test_that("relocate_bundled_cols() works", {
 
   expect_equal(relocate_bundled_cols(c("x", "a1", "b1", "y", "b2", "a2"), a = c("a1", "a2"), b = c("b1", "b2")), c("x", "a", "b", "y"))
 })
+
+test_that("relocate_unbundled_cols() works", {
+  expect_equal(relocate_unbundled_cols(c("x", "a", "y"), a = c("a1", "a2")), c("x", "a1", "a2", "y"))
+  expect_equal(relocate_unbundled_cols(c("x", "a", "y"), !!!list(a = c("a1", "a2"))), c("x", "a1", "a2", "y"))
+
+  expect_equal(relocate_unbundled_cols(c("x", "b", "y", "a"), a = c("a1", "a2"), b = c("b1", "b2")), c("x", "b1", "b2", "y", "a1", "a2"))
+})
