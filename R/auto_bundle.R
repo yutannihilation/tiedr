@@ -14,6 +14,28 @@ seperate_colnames <- function(x, sep = "[^[:alnum:]]+") {
   if (any(is.na(g))) {
     rlang::abort("Some columns have different length!")
   }
-  
+
   g
+}
+
+enstructure_colnames <- function(x, sep = "[^[:alnum:]]+") {
+  res <- list()
+
+  g <- seperate_colnames(x)
+
+  # fill with empty lists
+  for (j in seq_len(ncol(g) - 1)) {
+    for (i in seq_len(nrow(g))) {
+      pos <- g[i, 1:j]
+      res[[pos]] <- res[[pos]] %||% list()
+    }
+  }
+
+  # assign values
+  for (i in seq_len(nrow(g))) {
+    pos <- g[i, ]
+    res[[pos]] <- x[i]
+  }
+
+  res
 }
