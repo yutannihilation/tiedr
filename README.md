@@ -83,3 +83,26 @@ unbundle(d, Sepal, Petal)
 #> 10          4.9         3.1          1.5         0.1 setosa 
 #> # ... with 140 more rows
 ```
+
+### `auto_bundle()`
+
+``` r
+d <- tibble::tribble(
+  ~A_a_x, ~A_a_y, ~A_b_x, ~B_a_x, ~B_b_x, ~B_b_y,
+       1,      2,      3,      4,      5,      6,
+       2,      3,      4,      5,      6,      7
+)
+
+auto_bundle(d, everything())
+#> # A tibble: 2 x 2
+#>   A$a$x   $$y  $b$x B$a$x  $b$x   $$y
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1     1     2     3     4     5     6
+#> 2     2     3     4     5     6     7
+auto_bundle(d, starts_with("A"))
+#> # A tibble: 2 x 4
+#>   A$a$x   $$y  $b$x B_a_x B_b_x B_b_y
+#>   <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+#> 1     1     2     3     4     5     6
+#> 2     2     3     4     5     6     7
+```

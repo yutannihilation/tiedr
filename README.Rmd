@@ -48,3 +48,16 @@ d %>%
 # unbundle()
 unbundle(d, Sepal, Petal)
 ```
+
+### `auto_bundle()`
+
+```{r}
+d <- tibble::tribble(
+  ~A_a_x, ~A_a_y, ~A_b_x, ~B_a_x, ~B_b_x, ~B_b_y,
+       1,      2,      3,      4,      5,      6,
+       2,      3,      4,      5,      6,      7
+)
+
+auto_bundle(d, everything())
+auto_bundle(d, starts_with("A"))
+```
