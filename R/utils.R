@@ -14,14 +14,10 @@ flatten_names_depth_rec <- function(.x, .depth = purrr::vec_depth(.x) - 1) {
     rlang::abort("Invalid depth")
   
   if (.depth == 0) {
-    if (is.character(.x)) {
-      return(.x)
-    }
-    
     res <- names(.x)
     
     if (is.null(res)) {
-      rlang::abort("The elements are not characters and doesn't have names.")
+      rlang::abort("The elements at the depth don't have names.")
     }
     
     return(res)
