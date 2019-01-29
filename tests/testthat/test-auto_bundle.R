@@ -41,3 +41,32 @@ test_that("enstructure_colnames() works", {
     )
   )
 })
+
+test_that("auto_bundle() works", {
+  # TODO: dplyr:::all.equal.tbl_df() won't work with data.frame columns...
+
+  d <- auto_bundle(tibble::tibble(id = 1:3, a_g1 = 3:5, a_g2 = 6:8), a_g1, a_g2)
+  expect_equal(colnames(d), c("id", "a"))
+  expect_equal(d$id, 1:3)
+  expect_equal(d$a, tibble::tibble(g1 = 3:5, g2 = 6:8))
+
+  d <- auto_bundle(tibble::tibble(id = 1:3, a_g1 = 3:5, a_g2 = 6:8, b_g1 = 2:4, b_g2 = 4:6), a_g1, a_g2)
+  expect_equal(colnames(d), c("id", "a", "b_g1", "b_g2"))
+  expect_equal(d$id, 1:3)
+  expect_equal(d$a, tibble::tibble(g1 = 3:5, g2 = 6:8))
+  expect_equal(d$b_g1, 2:4)
+  expect_equal(d$b_g2, 4:6)
+
+  d <- auto_bundle(tibble::tibble(id = 1:3, a_g1 = 3:5, a_g2 = 6:8, b_g1 = 2:4, b_g2 = 4:6), a_g1:b_g2)
+  expect_equal(colnames(d), c("id", "a", "b"))
+  expect_equal(d$id, 1:3)
+  expect_equal(d$a, tibble::tibble(g1 = 3:5, g2 = 6:8))
+  expect_equal(d$b, tibble::tibble(g1 = 2:4, g2 = 4:6))
+
+  d <- auto_bundle(tibble::tibble(id = 1:3, A_a_x = 3:5, A_b_x = 6:8, B_a_x = 2:4, B_a_y = 4:6), -id)
+  expect_equal(colnames(d), c("id", "A", "B"))
+  expect_equal(d$id, 1:3)
+  expect_equal(d$A$a, tibble::tibble(x = 3:5))
+  expect_equal(d$A$b, tibble::tibble(x = 6:8))
+  expect_equal(d$B$a, tibble::tibble(x = 2:4, y = 4:6))
+})
