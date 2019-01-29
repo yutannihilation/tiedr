@@ -29,3 +29,9 @@ flatten_names_depth_rec <- function(.x, .depth = purrr::vec_depth(.x) - 1) {
   
   purrr::flatten_chr(res)
 }
+
+cross_tree_addresses <- function(x) {
+  names <- purrr::map(seq_len(purrr::vec_depth(x) - 1) - 1, ~ flatten_names_depth(x, .))
+  names_crossed <- purrr::cross(names)
+  purrr::map(names_crossed, purrr::flatten_chr)
+}
