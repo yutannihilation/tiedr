@@ -10,43 +10,47 @@ flatten_names_depth <- function(.x, .depth = purrr::vec_depth(.x) - 1) {
 }
 
 flatten_names_depth_rec <- function(.x, .depth = purrr::vec_depth(.x) - 1) {
-  if (.depth < 0) 
+  if (.depth < 0) {
     rlang::abort("Invalid depth")
-  
+  }
+
   if (.depth == 0) {
     res <- names(.x)
-    
+
     if (is.null(res)) {
       rlang::abort("The elements at the depth don't have names.")
     }
-    
+
     return(res)
   }
-  
+
   res <- purrr::map(.x, function(x) {
     flatten_names_depth_rec(x, .depth - 1)
   })
-  
+
   purrr::flatten_chr(res)
 }
 
-cross_tree_addresses <- function(x, depth = purrr::vec_depth(x) - 1) {
+cross_names_depth <- function(x, depth = purrr::vec_depth(x) - 1) {
   names <- purrr::map(seq_len(depth) - 1, ~ flatten_names_depth(x, .))
   names_crossed <- purrr::cross(names)
   purrr::map(names_crossed, purrr::flatten_chr)
 }
 
-complete_tree <- function(x) {
-  purrr::reduce(
-    seq_len(purrr::vec_depth(x) - 1),
-    function(x, depth) {
-      addresses <- cross_tree_addresses(depth)
-      purrr::reduce(
-        addresses,
-        ~ .x[[.y]] <- .x[[.y]] %||% tibble::tibble(),
-        .init = x
-      )
-    },
-    .init = x
-  )
+complete_bundles <- function(x) {
+  n_row <- nrow(x)
+  dummy_col <- rep(NA, n_row)
+  max_depth <- purrr::vec_depth(x) - 1
+
+  for (depth in seq_len(max_depth - 1)) {
+    for (address in cross_names_depth(x, depth)) {
+      x[[address]] <- x[[address]] %||% tibble::tibble(.rows = n_row)
+    }
+  }
+
+  for (address in cross_names_depth(x, max_depth)) {
+    x[[address]] <- x[[address]] %||% dummy_col
+  }
+
+  x
 }
