@@ -21,4 +21,5 @@ test_that("cross_tree_addresses() works", {
                     c("A", "y", "b"), c("B", "y", "b"),
                     c("A", "x", "c"), c("B", "x", "c"),
                     c("A", "y", "c"), c("B", "y", "c")))
+  # TODO: test depth
 })
