@@ -40,17 +40,25 @@ cross_names_depth <- function(x, depth = purrr::vec_depth(x) - 1) {
 complete_bundles <- function(x) {
   n_row <- nrow(x)
   dummy_col <- rep(NA, n_row)
-  max_depth <- purrr::vec_depth(x) - 1
+
+  # we modify the actual data, but use addresses only from bundled columns
+  bundled <- dplyr::select_if(x, is.data.frame)
+  # TODO: check all depths are equal
+  max_depth <- purrr::vec_depth(bundled) - 1
 
   for (depth in seq_len(max_depth - 1)) {
-    for (address in cross_names_depth(x, depth)) {
+    for (address in cross_names_depth(bundled, depth)) {
       x[[address]] <- x[[address]] %||% tibble::tibble(.rows = n_row)
     }
   }
 
-  for (address in cross_names_depth(x, max_depth)) {
+  for (address in cross_names_depth(bundled, max_depth)) {
     x[[address]] <- x[[address]] %||% dummy_col
   }
 
   x
+}
+
+bind_rows_with_care <- function(x, y) {
+  NULL
 }

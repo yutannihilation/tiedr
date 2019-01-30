@@ -43,11 +43,13 @@ test_that("complete_bundles() works", {
   dummy <- rep(NA, 3L)
   tb <- tibble::tibble # tired of typing...
 
-  d <- complete_bundles(tb(A = tb(a = 1:3, c = 2:4), B = tb(b = 3:5)))
+  d <- complete_bundles(tb(id = 1:3, A = tb(a = 1:3, c = 2:4), B = tb(b = 3:5)))
+  expect_equal(d$id, 1:3)
   expect_equal(d$A, tb(a = 1:3, b = dummy, c = 2:4))
   expect_equal(d$B, tb(a = dummy, b = 3:5, c = dummy))
 
-  d <- complete_bundles(tb(A = tb(a = tb(x = 1:3, y = 2:4)), B = tb(a = tb(y = 0:2), b = tb(x = 3:5))))
+  d <- complete_bundles(tb(id = 1:3, A = tb(a = tb(x = 1:3, y = 2:4)), B = tb(a = tb(y = 0:2), b = tb(x = 3:5))))
+  expect_equal(d$id, 1:3)
   expect_equal(d$A$a, tb(x = 1:3, y = 2:4))
   expect_equal(d$A$b, tb(x = dummy, y = dummy))
   expect_equal(d$B$a, tb(x = dummy, y = 0:2))
