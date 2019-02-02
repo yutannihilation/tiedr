@@ -67,7 +67,7 @@ d %>%
 #> # ... with 140 more rows
 
 # unbundle()
-unbundle(d, Sepal, Petal)
+unbundle(d, Sepal, Petal, sep = NULL)
 #> # A tibble: 150 x 5
 #>    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #>           <dbl>       <dbl>        <dbl>       <dbl> <fct>  

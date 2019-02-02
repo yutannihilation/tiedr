@@ -1,5 +1,7 @@
 ---
 output: github_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -46,7 +48,7 @@ d %>%
   bundle(-Species)
 
 # unbundle()
-unbundle(d, Sepal, Petal)
+unbundle(d, Sepal, Petal, sep = NULL)
 ```
 
 ### `auto_bundle()`
