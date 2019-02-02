@@ -42,7 +42,7 @@ bind_rows_recursively <- function(x) {
   }
 
   if (all(purrr::map_lgl(x, rlang::is_atomic))) {
-    return(vctrs::vec_c(!!!unname(x)))
+    return(vctrs::vec_c(!!!unname(as.list(x))))
   }
 
   x_bundled <- purrr::map(x, dplyr::select_if, is.data.frame)
