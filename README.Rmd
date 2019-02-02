@@ -61,3 +61,19 @@ d <- tibble::tribble(
 auto_bundle(d, everything())
 auto_bundle(d, starts_with("A"))
 ```
+
+### `gather_bundles()`
+
+```{r}
+auto_bundle(d, everything()) %>%
+  gather_bundles()
+
+auto_bundle(d, everything()) %>%
+  gather_bundles(.key = "key_outer") %>%
+  gather_bundles(.key = "key_inner")
+
+auto_bundle(d, everything()) %>%
+  gather_bundles(.key = "key_outer") %>%
+  gather_bundles(.key = "key_inner") %>%
+  gather_bundles(x:y, .key = "xy")
+```

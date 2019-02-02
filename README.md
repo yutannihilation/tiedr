@@ -106,3 +106,56 @@ auto_bundle(d, starts_with("A"))
 #> 1     1     2     3     4     5     6
 #> 2     2     3     4     5     6     7
 ```
+
+### `gather_bundles()`
+
+``` r
+auto_bundle(d, everything()) %>%
+  gather_bundles()
+#> # A tibble: 4 x 3
+#>   key     a$x    $y   b$x    $y
+#>   <chr> <dbl> <dbl> <dbl> <dbl>
+#> 1 A         1     2     3    NA
+#> 2 A         2     3     4    NA
+#> 3 B         4    NA     5     6
+#> 4 B         5    NA     6     7
+
+auto_bundle(d, everything()) %>%
+  gather_bundles(.key = "key_outer") %>%
+  gather_bundles(.key = "key_inner")
+#> # A tibble: 8 x 4
+#>   key_outer key_inner     x     y
+#>   <chr>     <chr>     <dbl> <dbl>
+#> 1 A         a             1     2
+#> 2 A         a             2     3
+#> 3 B         a             4    NA
+#> 4 B         a             5    NA
+#> 5 A         b             3    NA
+#> 6 A         b             4    NA
+#> 7 B         b             5     6
+#> 8 B         b             6     7
+
+auto_bundle(d, everything()) %>%
+  gather_bundles(.key = "key_outer") %>%
+  gather_bundles(.key = "key_inner") %>%
+  gather_bundles(x:y, .key = "xy")
+#> # A tibble: 16 x 4
+#>    key_outer key_inner xy    value
+#>    <chr>     <chr>     <chr> <dbl>
+#>  1 A         a         x         1
+#>  2 A         a         x         2
+#>  3 B         a         x         4
+#>  4 B         a         x         5
+#>  5 A         b         x         3
+#>  6 A         b         x         4
+#>  7 B         b         x         5
+#>  8 B         b         x         6
+#>  9 A         a         y         2
+#> 10 A         a         y         3
+#> 11 B         a         y        NA
+#> 12 B         a         y        NA
+#> 13 A         b         y        NA
+#> 14 A         b         y        NA
+#> 15 B         b         y         6
+#> 16 B         b         y         7
+```
