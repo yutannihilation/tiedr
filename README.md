@@ -159,3 +159,51 @@ auto_bundle(d, everything()) %>%
 #> 15 B         b         y         6
 #> 16 B         b         y         7
 ```
+
+### `spread_bundles()`
+
+``` r
+# https://github.com/tidyverse/tidyr/issues/149
+d <- tibble::tribble(
+  ~hw,   ~name,  ~mark,   ~pr,
+  "hw1", "anna",    95,  "ok",
+  "hw1", "alan",    90, "meh",
+  "hw1", "carl",    85,  "ok",
+  "hw2", "alan",    70, "meh",
+  "hw2", "carl",    80,  "ok"
+)
+
+spread_bundles(d, name, c(mark, pr))
+#> # A tibble: 2 x 4
+#>   hw    alan$mark $pr   anna$mark $pr   carl$mark $pr  
+#>   <chr>     <dbl> <chr>     <dbl> <chr>     <dbl> <chr>
+#> 1 hw1          90 meh          95 ok           85 ok   
+#> 2 hw2          70 meh          NA <NA>         80 ok
+
+spread_bundles(d, name, c(mark, pr)) %>%
+  unbundle(-hw)
+#> # A tibble: 2 x 7
+#>   hw    alan_mark alan_pr anna_mark anna_pr carl_mark carl_pr
+#>   <chr>     <dbl> <chr>       <dbl> <chr>       <dbl> <chr>  
+#> 1 hw1          90 meh            95 ok             85 ok     
+#> 2 hw2          70 meh            NA <NA>           80 ok
+
+# without prefix
+spread_bundles(d, name, c(mark, pr)) %>%
+  unbundle(-hw, sep = NULL)
+#> # A tibble: 2 x 7
+#>   hw     mark pr     mark pr     mark pr   
+#>   <chr> <dbl> <chr> <dbl> <chr> <dbl> <chr>
+#> 1 hw1      85 ok       85 ok       85 ok   
+#> 2 hw2      80 ok       80 ok       80 ok
+
+
+# ?spread
+tibble::tibble(x = c("a", "b"), y = c(3, 4), z = c(5, 6)) %>%
+  spread_bundles(x, y)
+#> # A tibble: 2 x 3
+#>       z     a     b
+#>   <dbl> <dbl> <dbl>
+#> 1     5     3    NA
+#> 2     6    NA     4
+```

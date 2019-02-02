@@ -79,3 +79,31 @@ auto_bundle(d, everything()) %>%
   gather_bundles(.key = "key_inner") %>%
   gather_bundles(x:y, .key = "xy")
 ```
+
+### `spread_bundles()`
+
+```{r}
+# https://github.com/tidyverse/tidyr/issues/149
+d <- tibble::tribble(
+  ~hw,   ~name,  ~mark,   ~pr,
+  "hw1", "anna",    95,  "ok",
+  "hw1", "alan",    90, "meh",
+  "hw1", "carl",    85,  "ok",
+  "hw2", "alan",    70, "meh",
+  "hw2", "carl",    80,  "ok"
+)
+
+spread_bundles(d, name, c(mark, pr))
+
+spread_bundles(d, name, c(mark, pr)) %>%
+  unbundle(-hw)
+
+# without prefix
+spread_bundles(d, name, c(mark, pr)) %>%
+  unbundle(-hw, sep = NULL)
+
+
+# ?spread
+tibble::tibble(x = c("a", "b"), y = c(3, 4), z = c(5, 6)) %>%
+  spread_bundles(x, y)
+```
