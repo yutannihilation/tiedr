@@ -1,7 +1,7 @@
 #' Gather bundles to columns
 #'
 #' @export
-gather_bundles <- function(data, ..., .name = "name", .value = "value") {
+gather_bundles <- function(data, ..., .key = "key", .value = "value") {
   dots <- rlang::quos(...)
   all_vars <- names(data)
 
@@ -22,7 +22,7 @@ gather_bundles <- function(data, ..., .name = "name", .value = "value") {
   # TODO: use vctrs::vec_slice()
   out <- out[rep(seq_len(nrow(data)), length(target)), ]
 
-  out[[.name]] <- rep(target_vars, each = nrow(data))
+  out[[.key]] <- rep(target_vars, each = nrow(data))
 
   target_binded <- bind_rows_recursively(target)
   if (all(rlang::have_name(target_binded))) {

@@ -4,7 +4,7 @@
 \alias{gather_bundles}
 \title{Gather bundles to columns}
 \usage{
-gather_bundles(data, ..., .name = "name", .value = "value")
+gather_bundles(data, ..., .key = "key", .value = "value")
 }
 \description{
 Gather bundles to columns
