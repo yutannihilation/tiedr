@@ -35,19 +35,26 @@ bundle <- function(data, ..., .key = "data") {
 
 #' @rdname bundle
 #' @export
-unbundle <- function(data, ...) {
+unbundle <- function(data, ..., sep = "_") {
   all_vars <- names(data)
-  unbundle <- tidyselect::vars_select(all_vars, ...)
-  rest <- setdiff(all_vars, unbundle)
+  target_vars <- tidyselect::vars_select(all_vars, ...)
+  rest_vars <- setdiff(all_vars, target_vars)
 
-  out <- dplyr::select(data, !!!rlang::syms(rest))
-  target_cols <- dplyr::select(data, !!!rlang::syms(unbundle))
-  for (d in target_cols) {
+  target <- dplyr::select(data, !!target_vars)
+
+  if (!is.null(sep)) {
+    # TODO: use imodify (c.f. https://github.com/tidyverse/purrr/issues/632)
+    for (nm in names(target)) {
+      target[[nm]] <- dplyr::rename_all(target[[nm]], function(x) paste0(nm, sep, x))
+    }
+  }
+
+  out <- dplyr::select(data, !!rest_vars)
+  for (d in target) {
     out[names(d)] <- d
   }
 
-  unbundle_vars <- purrr::map(target_cols, colnames)
-
+  unbundle_vars <- purrr::map(target, colnames)
   out[relocate_unbundled_cols(all_vars, !!!unbundle_vars)]
 }
 

@@ -7,7 +7,7 @@
 \usage{
 bundle(data, ..., .key = "data")
 
-unbundle(data, ...)
+unbundle(data, ..., sep = "_")
 }
 \arguments{
 \item{data}{A data.frame.}
