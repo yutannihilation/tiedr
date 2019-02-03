@@ -58,7 +58,3 @@ complete_bundles <- function(x) {
 
   x
 }
-
-bind_rows_with_care <- function(x, y) {
-  NULL
-}
