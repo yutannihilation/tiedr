@@ -3,7 +3,7 @@
 \name{bundle}
 \alias{bundle}
 \alias{unbundle}
-\title{Bundle And Unbundle Columns}
+\title{Pack and unpack columns}
 \usage{
 bundle(data, ..., .key = "data")
 
@@ -17,5 +17,5 @@ unbundle(data, ..., sep = "_")
 \item{.key}{The name of the new column. If the dots have names, this will be ignored.}
 }
 \description{
-Bundle And Unbundle Columns
+Pack and unpack columns
 }

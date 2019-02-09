@@ -2,10 +2,10 @@
 % Please edit documentation in R/auto_bundle.R
 \name{auto_bundle}
 \alias{auto_bundle}
-\title{Automatically Bundle Columns}
+\title{Automatically pack columns}
 \usage{
 auto_bundle(data, ..., sep = "[^[:alnum:]]+")
 }
 \description{
-Automatically Bundle Columns
+Automatically pack columns
 }

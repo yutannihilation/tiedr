@@ -1,4 +1,4 @@
-#' Spreadbundles
+#' Spread packed columns
 #'
 #' @export
 spread_bundles <- function(data, key, ..., simplify = TRUE) {

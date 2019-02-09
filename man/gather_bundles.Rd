@@ -2,10 +2,10 @@
 % Please edit documentation in R/gather_bundles.R
 \name{gather_bundles}
 \alias{gather_bundles}
-\title{Gather bundles to columns}
+\title{Gather packed columns to columns}
 \usage{
 gather_bundles(data, ..., .key = "key", .value = "value")
 }
 \description{
-Gather bundles to columns
+Gather packed columns to columns
 }

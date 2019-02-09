@@ -1,4 +1,4 @@
-#' Bundle And Unbundle Columns
+#' Pack and unpack columns
 #'
 #' @name bundle
 #' @param data A data.frame.
@@ -51,6 +51,7 @@ unbundle <- function(data, ..., sep = "_") {
 
   out <- dplyr::select(data, !!rest_vars)
   for (d in target) {
+    # TOOD: ensure the names are unique
     out[names(d)] <- d
   }
 

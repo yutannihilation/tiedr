@@ -1,4 +1,4 @@
-#' Automatically Bundle Columns
+#' Automatically pack columns
 #'
 #' @export
 auto_bundle <- function(data, ..., sep = "[^[:alnum:]]+") {

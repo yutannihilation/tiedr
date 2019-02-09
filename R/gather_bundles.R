@@ -1,4 +1,4 @@
-#' Gather bundles to columns
+#' Gather packed columns to columns
 #'
 #' @export
 gather_bundles <- function(data, ..., .key = "key", .value = "value") {

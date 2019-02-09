@@ -21,13 +21,22 @@ knitr::opts_chunk$set(
 [![Travis build status](https://travis-ci.com/yutannihilation/tiedr.svg?branch=master)](https://travis-ci.com/yutannihilation/tiedr)
 <!-- badges: end -->
 
-tiedr is not tidyr.
+tiedr is an experimental package to "pack" (or "bundle") some columns to a data.frame column.
+
+The idea behind this package is basically the same as `pack()`/`unpack()`, which was proposed on the tidyr's issue below. I didn't notice this issue at the time of deciding the main function name as `bundle()`...
+
+* <https://github.com/tidyverse/tidyr/issues/523>
+
+If you wonder how this is useful, my blog post might help:
+
+* <https://yutani.rbind.io/post/enhancing-gather-and-spread-by-using-bundled-data-frames/>
+
 
 ## Usages
 
 ### `bundle()` and `unbundle()`
 
-`bundle()` bundles columns into a data.frame column, and `unbundle()` unbundles it.
+`bundle()` packs columns into a data.frame column, and `unbundle()` unpacks it.
 
 ```{r}
 library(tiedr)

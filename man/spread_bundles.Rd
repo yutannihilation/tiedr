@@ -2,10 +2,10 @@
 % Please edit documentation in R/spread_bundles.R
 \name{spread_bundles}
 \alias{spread_bundles}
-\title{Spreadbundles}
+\title{Spread packed columns}
 \usage{
 spread_bundles(data, key, ..., simplify = TRUE)
 }
 \description{
-Spreadbundles
+Spread packed columns
 }
